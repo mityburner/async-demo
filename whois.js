@@ -1,5 +1,4 @@
 var net = require('net');
-var async = require('async');
 
 function whois(domain, callback) {
     var stream = net.createConnection(43, 'whois.nic.guru'),
