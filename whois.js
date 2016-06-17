@@ -23,4 +23,4 @@ function whois(domain, callback) {
 
 }
 
-exports.whois = whois;
+module.exports = whois;
