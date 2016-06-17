@@ -1,6 +1,9 @@
 var async = require('async');
-var whois = require('./whois.js').whois;
+var whois = require('./whois.js');
 
+/*适用于：一组数据重复调用同一个异步函数进行处理的情况，async.map(arr,fun,function(err,results){ console.log(results)}),
+*其中fun就是异步函数
+*/
 
 /**
  * 对集合中的每一个元素，执行某个异步操作，得到结果。所有的结果将汇总到最终的callback里。
@@ -19,9 +22,7 @@ var arr = num.map(function(val) {
  * 所有操作均正确执行，未出错。所有结果按元素顺序汇总给最终的callback。
  */
 // 1.1
-async.map(arr, function(val, callback) {
-    whois(val, callback);
-}, function(err, results) {
+async.map(arr, whois, function(err, results) {
     console.log(results);
 });
 //最终whois的结果都存在results数组中
@@ -30,9 +31,7 @@ async.map(arr, function(val, callback) {
 * 顺序执行，一个完了才执行下一个。
 */
 //1.2
-async.mapSeries(arr, function(val, callback) {
-    whois(val, callback);
-}, function(err, results) {
+async.mapSeries(arr, whois, function(err, results) {
     console.log(results);
 });
 
@@ -40,9 +39,7 @@ async.mapSeries(arr, function(val, callback) {
  * 并行执行，同时最多2个函数并行，传给最终callback。
  */
 //1.3
-async.mapLimit(arr, 2, function(val, callback) {
-    whois(val, callback);
-}, function(err, results) {
+async.mapLimit(arr, 2, whois, function(err, results) {
     console.log(results);
 });
 
